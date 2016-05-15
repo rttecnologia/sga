@@ -1,6 +1,6 @@
-# suge-project
+# sga
 
-## Sistema Unificado de Gestão Educacional
+## Sistema de Gestão Acadêmica
 
 Sistema Web para Gestão Educacional de forma Unificada. Contempla as diversas áreas de uma Instituição de Ensino, dentre eles:
 
@@ -11,14 +11,15 @@ Sistema Web para Gestão Educacional de forma Unificada. Contempla as diversas �
 ## Instalação
 Clone o projeto para seu host
 ```
-git clone https://github.com/romero1989/suge-project.git
+git clone https://github.com/rttecnologia/sga.git
 ```
+
+Crie e ajuste as configurações do arquivo .env
+
 Entre no diretório do projeto e execute o seguinte comando:
 ```
 composer update
-composer install
 ```
-Ajuste as configurações do arquivo .env
 
 ## Execução do sistema
 Ainda no diretório do projeto execute o comando:
