@@ -5,9 +5,18 @@ node_modules/
 bootstrap/compiled.php
 app/storage/
 
+# Ignorar arquivos específicos
+.DS_Store
+
 # Laravel 5 & Lumen specific
-bootstrap/cache/
-storage/
+bootstrap/cache/*
+#storage/
+storage/app/public/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/framework/cache/*
+storage/framework/logs/*
 .env.*.php
 .env.php
 .env
