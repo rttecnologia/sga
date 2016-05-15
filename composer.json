@@ -44,7 +44,7 @@
             "php artisan optimize"
         ],
         "post-update-cmd": [
-            #"mkdir bootstrap/cache",
+            "mkdir bootstrap/cache",
             "mkdir storage/app",
             "mkdir storage/app/public",
             "mkdir storage/framework",
