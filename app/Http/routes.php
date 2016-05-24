@@ -63,7 +63,7 @@ Route::group(['middleware' => 'web'], function () {
 
     //Rotas para o gerenciamento de permissao (Permission)
     Route::get('sistema/permissao', 'PermissionController@index');
-    Route::get('sistema/permissao/assign', 'PermissionController@assign');
+    Route::get('sistema/permissao/assign/{id}', 'PermissionController@assign');
     Route::post('sistema/permissao/assignStore', 'PermissionController@assignStore');
     Route::get('sistema/permissao/create', 'PermissionController@create');
     Route::post('sistema/permissao/store', 'PermissionController@store');
