@@ -8,6 +8,7 @@ app/storage/
 # Laravel 5 & Lumen specific
 bootstrap/cache/
 storage/
+storage/logs/laravel.log
 storage/logs
 .env.*.php
 .env.php
@@ -20,5 +21,3 @@ storage/logs
 mysql
 
 *.log
-
-storage/logs/laravel.log
