@@ -29,7 +29,7 @@ class PermissionController extends Controller
     public function assign(Request $request, $id) {
 
         $permission = Permission::findOrFail($id);
-        $associados = DB::table('permission_user')->where('permission_id', $id)->get();
+        $associados = DB::table('permission_user')->where('permission_id', $id);
 
         return view('sistema.permissao.assign', ['permissao' => $permission, 'associados' => $associados]);
     }
