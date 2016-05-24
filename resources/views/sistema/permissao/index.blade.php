@@ -7,6 +7,7 @@
 @section('conteudo')
 @include('flash::message')
 
+@include('layout._partials.success')
 @include('layout._partials.modal')
 
 <div class="panel panel-default">
@@ -16,7 +17,7 @@
     <div class="panel-body">
             <p>
                 <a href="{{ action('PermissionController@create')}}" class="btn btn-info">Novo</a>
-                <a class="btn btn-info" href="{{ action('PermissionController@assign') }}">Associar</a>
+
             </p>
 
             <table id="example-1" class="table table-striped table-bordered dataTable" cellspacing="0" width="100%" role="grid" aria-describedby="example-1_info" style="width: 100%;">
@@ -35,6 +36,7 @@
                         <td>{{$p->slug}}</td>
                         <td>{{$p->description}}</td>
                         <td class="text-center">
+                            <a class="glyphicon glyphicon-user" href="{{ action('PermissionController@assign', $p->id) }}"></a>
                             <a class="fa-pencil" href="{{ action('PermissionController@edit', $p->id) }}"></a>
                             <a href="#" class="fa-trash" data-href="{{ action('PermissionController@delete', $p->id) }}" data-toggle="modal" data-target="#confirm-delete"></a><br>
                         </td>  

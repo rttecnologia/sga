@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use DCN\RBAC\Models\Permission;
 use Flash;
+use DB;
 use Validator;
 
 class PermissionController extends Controller
@@ -25,9 +26,12 @@ class PermissionController extends Controller
         return view('sistema.permissao.index', ['permissao' => $permission]);
     }
 
-    public function assign() {
-        $permission = Permission::all();
-        return view('sistema.permissao.assign', ['permissao' => $permission]);
+    public function assign(Request $request, $id) {
+
+        $permission = Permission::findOrFail($id);
+        $associados = DB::table('permission_user')->where('permission_id', $id)->get();
+
+        return view('sistema.permissao.assign', ['permissao' => $permission, 'associados' => $associados]);
     }
 
     /**
