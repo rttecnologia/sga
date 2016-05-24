@@ -16,7 +16,7 @@
         <div class="panel-body">
             
             @include('layout._partials.success')
-            @include('layout._partials.error')
+            @include('errors.error')
             @include('layout._partials.alert')
 
                 {!! Form::open(array('action' =>'PermissionController@store')) !!}
