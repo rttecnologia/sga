@@ -7,7 +7,7 @@
 
 
 @include('layout._partials.success')
-@include('layout._partials.error')
+@include('errors.error')
 @include('layout._partials.alert')
 
 <div class="container">
