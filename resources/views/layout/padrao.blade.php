@@ -30,7 +30,6 @@
 	<![endif]-->
 </head>
 <body class="page-body">
-@include('layout._partials.modal')
     @include('layout.top')
 	
 	<div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
@@ -65,9 +64,6 @@
 
     <!-- JavaScripts initializations and stuff -->
     <script src="{{ asset('assets/js/xenon-custom.js') }}"></script>
-
-    <!-- JavaScripts initializations and stuff -->
-    <script src="{{ asset('assets/js/scripts.js') }}"></script>
     
     <script>
     $(function() {
