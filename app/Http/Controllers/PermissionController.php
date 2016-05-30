@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use DCN\RBAC\Models\Permission;
 use Flash;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use DB;
 use Validator;
 
@@ -28,10 +30,11 @@ class PermissionController extends Controller
 
     public function assign(Request $request, $id) {
 
-        $permission = Permission::findOrFail($id);
-        $associados = DB::table('permission_user')->where('permission_id', $id);
+        $permissao = Permission::findOrFail($id);
+        $associados = DB::table('permission_user')->where('permission_id', $id)->get();
 
-        return view('sistema.permissao.assign', ['permissao' => $permission, 'associados' => $associados]);
+        return view('sistema.permissao.assign', compact('permissao','associados'));
+
     }
 
     /**
