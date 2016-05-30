@@ -22,21 +22,18 @@
             <div class="row">
                 <div class="col-md-10"></div>
                 <div class="col-md-2">
-                    <button class="btn btn-blue btn-icon btn-icon-standalone">
-                        <i class="fa-plus-circle"></i>
-                        <span>Adicionar Usuário</span>
-
-                    </button>
+                    <a href="javascript: void(0);" onclick="associarUsuario({{$permissao->id}})">
+                        <button class="btn btn-blue btn-icon btn-icon-standalone">
+                            <i class="fa-plus-circle"></i>
+                            <span>Adicionar Usuário</span>
+                        </button>
+                    </a>
                 </div>
-
-
             </div>
-
         </div>
 
         <div class="page-header">
             <h3>Usuários Associados</h3>
-            {{dump($associados)}}
         </div>
 
         <div class="row">
@@ -219,5 +216,9 @@
 
 
 @stop
+
+@section('js')
+    <script src="/assets/js/sistema/permissao.js"></script>
+@endsection
 
 

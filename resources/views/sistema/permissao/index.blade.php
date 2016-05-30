@@ -8,7 +8,7 @@
 @include('flash::message')
 
 @include('layout._partials.success')
-@include('layout._partials.modal')
+@include('layout._partials.alert')
 
 <div class="panel panel-default">
     <div class="panel-heading">
