@@ -15,9 +15,17 @@
         <h3 class="panel-title">Lista de Perfil</h3>
     </div>
     <div class="panel-body">
-        <p>
-            <a href="{{ action('RoleController@create')}}" class="btn btn-info">Novo</a>     
-        </p>
+        <div class="row">
+            <div class="col-md-10"></div>
+            <div class="col-md-2">
+                 <a href="{{ action('RoleController@create') }}">
+                    <button class="btn btn-blue btn-icon btn-icon-standalone">
+                        <i class="fa-plus-circle"></i>
+                        <span>Novo Perfil</span>
+                    </button>
+                </a>
+            </div>
+        </div>
             <table id="example-1" class="table table-striped table-bordered dataTable" cellspacing="0" width="100%" role="grid" aria-describedby="example-1_info" style="width: 100%;">
                 <thead>
                     <tr role="row">
@@ -42,9 +50,11 @@
                             <span class="label label-success">{{ $p->parent->name }}</span>
                         @endif
                         </td> 
-                        <td class="text-center">  
-                            <a class="fa-pencil" href="{{ action('RoleController@edit', $p->id) }}"></a>
-                            <a href="#" class="fa-trash" data-href="{{ action('RoleController@delete', $p->id) }}" data-toggle="modal" data-target="#confirm-delete"></a><br>
+                        <td class="text-center">
+                            <a class="fa-gears" data-toggle="tooltip" data-placement="top" title="Configurações" href="{{ action('RoleController@edit', $p->id) }}"></a>
+                            <a class="fa-group" data-toggle="tooltip" data-placement="top" title="Grupo de Usuários" href="{{ action('RoleController@edit', $p->id) }}"></a>
+                            <a class="fa-pencil" data-toggle="tooltip" data-placement="top" title="Modificar" href="{{ action('RoleController@edit', $p->id) }}"></a>
+                            <a href="#" class="fa-trash" title="Excluir" data-href="{{ action('RoleController@delete', $p->id) }}" data-toggle="modal" data-target="#confirm-delete"></a><br>
                         </td>  
                     </tr>
                     @endforeach
@@ -59,6 +69,13 @@
         $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 
         //$('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+
     });
 </script>
 
