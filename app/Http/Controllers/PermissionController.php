@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use DCN\RBAC\Models\Permission;
 use Flash;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
+//use Symfony\Component\HttpFoundation\Response;
+//use Illuminate\Support\Facades\Input;
+//use Illuminate\Pagination\LengthAwarePaginator;
+//use Illuminate\Support\Collection;
 use DB;
 use Validator;
 

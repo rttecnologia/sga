@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Input;
-//use App\Usuario;
 use App\User;
 use Validator;
 use Flash;
+use DB;
 
 class UsuarioController extends Controller {
 
@@ -84,6 +84,24 @@ class UsuarioController extends Controller {
         //return redirect('sistema/usuario')->with('flash_message', 'Usuário deletado com suscesso!');
         Flash::success('Usuário excluido com sucesso!');
         return redirect('sistema/usuario');
+    }
+
+    public function buscaUsuario(){
+        $term = Input::get('term');
+
+        $results = array();
+
+        $queries = DB::table('users')
+            ->where('name', 'LIKE', '%'.$term.'%')
+            ->orWhere('email', 'LIKE', '%'.$term.'%')
+            ->take(5)->get();
+
+        foreach ($queries as $query)
+        {
+            $results[] = [ 'id' => $query->id, 'value' => $query->name.' ('.$query->email.')'];
+        }
+        return response()->json($results);
+
     }
     
 }

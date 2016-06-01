@@ -60,6 +60,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('sistema/usuario/delete/{id}', 'UsuarioController@delete');
     Route::get('sistema/usuario/show/{id}', 'UsuarioController@show');
     Route::patch('sistema/usuario/update/{id}', 'UsuarioController@update');
+    Route::get('sistema/usuario/buscaUsuario', 'UsuarioController@buscaUsuario'); // Rota para buscar usuário
 
     //Rotas para o gerenciamento de permissao (Permission)
     Route::get('sistema/permissao', 'PermissionController@index');
