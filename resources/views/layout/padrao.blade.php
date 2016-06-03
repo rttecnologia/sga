@@ -19,9 +19,12 @@
 	<link rel="stylesheet" href="{{ asset('assets/css/xenon-components.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/css/xenon-skins.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/js/sistema/jquery-ui/jquery-ui.css') }}">
 
 	<script src="{{ asset('assets/js/jquery-1.11.1.min.js') }}"></script>
-        <script src="{{ asset('assets/js/inputmask/jquery.mask.js') }}"></script>
+    <script src="{{ asset('assets/js/inputmask/jquery.mask.js') }}"></script>
+
+    <script src="{{ asset('assets/js/sistema/jquery-ui/jquery-ui.js') }}"></script>
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>

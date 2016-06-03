@@ -7,8 +7,7 @@
 @section('conteudo')
 @include('flash::message')
 
-@include('layout._partials.success')
-@include('layout._partials.alert')
+@include('layout._partials.modal.delete')
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -19,18 +18,6 @@
                 <a href="{{ action('PermissionController@create')}}" class="btn btn-info">Novo</a>
 
             </p>
-
-        <div class="ui-widget">
-            <label for="birds">Birds: </label>
-            <input id="birds">
-        </div>
-
-        <div class="ui-widget" style="margin-top:2em; font-family:Arial">
-            Result:
-            <ul id="log" class="ui-widget-content">
-
-            </ul>
-        </div>
 
             <table id="example-1" class="table table-striped table-bordered dataTable" cellspacing="0" width="100%" role="grid" aria-describedby="example-1_info" style="width: 100%;">
                 <thead>
@@ -61,12 +48,6 @@
 </div>
 
 @include('layout._partials.sistema.buscaUsuario')
-
-<script>
-    $('#confirm-delete').on('show.bs.modal', function (e) {
-        $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-    });
-</script>
 
 @stop
 

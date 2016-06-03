@@ -12,6 +12,7 @@ use Flash;
 //use Illuminate\Pagination\LengthAwarePaginator;
 //use Illuminate\Support\Collection;
 use DB;
+use App\User;
 use Validator;
 
 class PermissionController extends Controller
@@ -33,9 +34,20 @@ class PermissionController extends Controller
     public function assign(Request $request, $id) {
 
         $permissao = Permission::findOrFail($id);
-        $associados = DB::table('permission_user')->where('permission_id', $id)->get();
+        $usuarios = User::paginate(4);
 
-        return view('sistema.permissao.assign', compact('permissao','associados'));
+        $count = count($usuarios);
+
+        for ($i = 0; $i < $count; $i++) {
+
+            if(!$usuarios[$i]->can($permissao->id)){
+                unset($usuarios[$i]);
+            }
+        }
+
+        //$associados = DB::table('permission_user')->where('permission_id', $id)->get();
+
+        return view('sistema.permissao.assign', compact('permissao','usuarios'));
 
     }
 
@@ -82,6 +94,36 @@ class PermissionController extends Controller
         Flash::success('Permissão associada com sucesso!');
         return redirect('sistema/permissao');
 
+    }
+
+    public function addPermissionUser(Request $request){
+        $input = $request->all();
+
+        $permissao = $input['id_permissao'];
+
+        $usuarios = $input['user'];
+
+        foreach ($usuarios as $u) {
+            $user = User::find($u);
+            $user->attachPermission($permissao);
+        }
+
+        Flash::success('Usuário(s) adicionado(s) com sucesso!');
+        return redirect('sistema/permissao/assign/'.$permissao);
+        //return response()->json($input);
+    }
+
+    public function deletePermissionUser(Request $request){
+        $input = $request->all();
+
+        $id_usuario = $input['id_usuario'];
+        $id_permissao = $input['id_permissao'];
+
+        $user = User::find($id_usuario);
+        $user->detachPermission($id_permissao);
+
+        Flash::success('Usuário excluido com sucesso!');
+        return redirect('sistema/permissao/assign/'.$id_permissao);
     }
 
     public function edit($id) {
