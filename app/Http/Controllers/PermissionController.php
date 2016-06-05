@@ -34,7 +34,7 @@ class PermissionController extends Controller
     public function assign(Request $request, $id) {
 
         $permissao = Permission::findOrFail($id);
-        $usuarios = User::paginate(4);
+        $usuarios = User::paginate(6);
 
         $count = count($usuarios);
 
