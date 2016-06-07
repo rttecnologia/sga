@@ -242,6 +242,7 @@ var public_vars = public_vars || {};
 				// Close opened modal
 				if(public_vars.$body.hasClass('modal-open'))
 					$(".modal-open .modal:visible").modal('hide');
+				$('#errors').css('display','none');
 			}
 		});
 

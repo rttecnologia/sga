@@ -1,6 +1,7 @@
 <!---------------------------------------------------
 MODAL: bairro
 ---------------------------------------------------->
+<script src="/assets/js/sistema/bairro.js"></script>
 <!-- ver bairro -->
 <div class="modal fade" id="ver-bairro" role="dialog">
     <div class="modal-dialog">

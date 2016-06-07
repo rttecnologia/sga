@@ -44,8 +44,4 @@
 </div>
 @stop
 
-@section('js')
-<script src="/assets/js/sistema/bairro.js"></script>
-@endsection
-
 
