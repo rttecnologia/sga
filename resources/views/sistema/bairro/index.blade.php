@@ -7,7 +7,6 @@
 @section('conteudo')
 @include('flash::message')
 
-@include('layout._partials.success')
 @include('layout._partials.modal.bairro')
 
 <div class="panel panel-default">
@@ -44,9 +43,5 @@
     
 </div>
 @stop
-
-@section('js')
-<script src="/assets/js/sistema/bairro.js"></script>
-@endsection
 
 

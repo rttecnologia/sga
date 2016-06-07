@@ -71,6 +71,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('sistema/permissao/delete/{id}', 'PermissionController@delete');
     Route::get('sistema/permissao/edit/{id}', 'PermissionController@edit');
     Route::patch('sistema/permissao/update/{id}', 'PermissionController@update');
+    Route::get('sistema/permissao/adduser', 'PermissionController@addPermissionUser');
+    Route::get('sistema/permissao/removeuser', 'PermissionController@deletePermissionUser');
 
 
 

@@ -3,20 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use DCN\RBAC\Models\Permission;
 use Flash;
-//use Symfony\Component\HttpFoundation\Response;
-//use Illuminate\Support\Facades\Input;
-//use Illuminate\Pagination\LengthAwarePaginator;
-//use Illuminate\Support\Collection;
 use DB;
+use App\User;
 use Validator;
 
 class PermissionController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -25,17 +22,26 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         $permission = Permission::all();
         return view('sistema.permissao.index', ['permissao' => $permission]);
     }
 
-    public function assign(Request $request, $id) {
+    public function assign($id)
+    {
 
         $permissao = Permission::findOrFail($id);
-        $associados = DB::table('permission_user')->where('permission_id', $id)->get();
 
-        return view('sistema.permissao.assign', compact('permissao','associados'));
+        $usuarios = DB::table('users')
+            ->whereIn('id', function ($query) use ($id) {
+                $query->select(DB::raw('user_id'))
+                    ->from('permission_user')
+                    ->whereRaw('permission_user.user_id = users.id AND permission_user.permission_id = '.$id);
+            })
+            ->paginate(6);
+
+        return view('sistema.permissao.assign', compact('permissao', 'usuarios'));
 
     }
 
@@ -44,29 +50,34 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create()
+    {
         return view('sistema.permissao.create');
     }
 
-    public function store(Request $request) {
-        $input = $request->all();
+    public function store(Request $request)
+    {
 
-        $validator = $this->validator($request, $input);
+        if ($request->ajax()) {
+            $input = $request->all();
 
-        if ($validator->fails()) {
-            $this->throwValidationException(
-                $request, $validator
-            );
+            $validator = $this->validator($request, $input);
+
+            if ($validator->fails()) {
+                $this->throwValidationException(
+                    $request, $validator
+                );
+            }
+
+            $permissao = Permission::create($request->all());
+
+            Flash::success('Permissão adicionada com sucesso!');
+            return $request->json($permissao);
         }
-
-        Permission::create($input);
-
-        Flash::success('Permissão criada com sucesso!');
-        return redirect('sistema/permissao');
-
     }
 
-    public function assignStore(Request $request) {
+    public function assignStore(Request $request)
+    {
         $input = $request->all();
 
         $validator = $this->validator($request, $input);
@@ -84,31 +95,80 @@ class PermissionController extends Controller
 
     }
 
-    public function edit($id) {
-        $permission = Permission::findOrFail($id);
-
-        return view('sistema.permissao.edit', ['permissao' => $permission]);
-    }
-
-    public function update(Request $request, $id) {
+    public function addPermissionUser(Request $request)
+    {
         $input = $request->all();
-        $validator = $this->validator($request, $input);
 
-        if ($validator->fails()) {
-            $this->throwValidationException(
-                $request, $validator
-            );
+        $permissao = $input['id_permissao'];
+
+        $usuarios = $input['user'];
+
+        foreach ($usuarios as $u) {
+            $user = User::find($u);
+            $user->attachPermission($permissao);
         }
 
-        $permission = Permission::findOrFail($id);
+        Flash::success('Usuário(s) adicionado(s) com sucesso!');
+        return redirect('sistema/permissao/assign/' . $permissao);
 
-
-        $permission->fill($input)->save();
-        Flash::success('Permissão atualizada com sucesso!');
-        return redirect('sistema/permissao');
     }
 
-    public function delete($id) {
+    public function deletePermissionUser(Request $request)
+    {
+        $input = $request->all();
+
+        $id_usuario = $input['id_usuario'];
+        $id_permissao = $input['id_permissao'];
+
+        $user = User::find($id_usuario);
+        $user->detachPermission($id_permissao);
+
+        Flash::success('Usuário excluido com sucesso!');
+        return redirect('sistema/permissao/assign/' . $id_permissao);
+    }
+
+    public function edit($id, Request $request)
+    {
+        if ($request->ajax()) {
+            $permission = Permission::findOrFail($id);
+            return $permission;
+        }
+
+    }
+
+    public function update(Request $request, $id)
+    {
+
+        if ($request->ajax()) {
+            $permissao = Permission::find($id);
+
+            $temporario = [
+                'name' => $request->name,
+                'slug' => $request->slug,
+                'description' => $request->description
+            ];
+
+            $validator = $this->validator($request, $temporario);
+
+
+            if ($validator->fails()) {
+
+                $this->throwValidationException(
+                    $request, $validator
+                );
+            }
+
+            $permissao->fill($request->all())->save();
+
+            Flash::success('Permissão atualizada com sucesso!');
+            return $request->json($permissao);
+
+        }
+
+    }
+
+    public function delete($id)
+    {
 
         $permission = Permission::findOrFail($id);
         $permission->delete();
@@ -119,12 +179,12 @@ class PermissionController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(Request $request, array $data) {
         if ($request->isMethod('patch')) {
-            $slug_rule = 'required|max:255|unique:permissions' . $request->get('id');
+            $slug_rule = 'required|max:255|unique:permissions,id,' . $request->get('id');
         }  else  {
             $slug_rule = 'required|max:255|unique:permissions';
         }
