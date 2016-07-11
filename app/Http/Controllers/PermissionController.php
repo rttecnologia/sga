@@ -39,7 +39,7 @@ class PermissionController extends Controller
                     ->from('permission_user')
                     ->whereRaw('permission_user.user_id = users.id AND permission_user.permission_id = '.$id);
             })
-            ->paginate(6);
+            ->paginate(8);
 
         return view('sistema.permissao.assign', compact('permissao', 'usuarios'));
 
