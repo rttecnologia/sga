@@ -1,13 +1,13 @@
 @extends('layout.padrao')
-@section('title', 'Acadêmico')
+@section('title', 'Thiago dos Santos Cidade')
 
-@section('title.descricao', 'Adicionar novo acadêmico')
+@section('title.descricao', 'Atualizar cadastro')
 @section('breadcrumbs', Breadcrumbs::render('secretaria.academico'))
 
 @section('conteudo')
 @include('flash::message')
 
-@include('layout._partials.modal')
+@include('layout._partials.modal.delete')
 
 <div class="row">
 
@@ -15,39 +15,40 @@
 
         <ul class="nav nav-tabs">
             <li class="active">
-                <a href="#home-3" data-toggle="tab">
-                    <span class="visible-xs"><i class="fa-home"></i></span>
+                <a href="#Dados-Pessoais" data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-user"></i></span>
                     <span class="hidden-xs">Dados Pessoais</span>
                 </a>
             </li>
             <li>
-                <a href="#endereco" data-toggle="tab">
-                    <span class="visible-xs"><i class="fa-envelope-o"></i></span>
+                <a href="#Endereco-Contato" data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-phone"></i></span>
                     <span class="hidden-xs">Endereço e Contato</span>
                 </a>
             </li>
             <li>
-                <a href="#profile-3" data-toggle="tab">
-                    <span class="visible-xs"><i class="fa-user"></i></span>
+                <a href="#Dados-Complementares" data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-navicon"></i></span>
                     <span class="hidden-xs">Dados Complementares</span>
                 </a>
             </li>
             <li>
-                <a href="#ingresso" data-toggle="tab">
-                    <span class="visible-xs"><i class="fa-envelope-o"></i></span>
+                <a href="#Ingresso" data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-mortar-board"></i></span>
                     <span class="hidden-xs">Ingresso</span>
                 </a>
             </li>
             <li>
-                <a href="#messages-3" data-toggle="tab">
-                    <span class="visible-xs"><i class="fa-envelope-o"></i></span>
+                <a href="#Documentos" data-toggle="tab">
+                    <span class="visible-xs"><i class="fa-folder"></i></span>
                     <span class="hidden-xs">Documentos</span>
                 </a>
             </li>
         </ul>
 
         <div class="tab-content">
-            <div class="tab-pane active" id="home-3">
+
+            <div class="tab-pane active" id="Dados-Pessoais">
 
                 <div class="row">
                     <div class="col-md-6">
@@ -114,7 +115,7 @@
                         <div class="form-group">
                             <label for="field-3" class="control-label">Sexo</label>
 
-                            <select class="form-control" id="sboxit-1">
+                            <select class="form-control" id="select-sexo">
                                 <option>Selecione</option>
                                 <option value="1">Masculino</option>
                                 <option value="2">Feminino</option>
@@ -136,12 +137,27 @@
 
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-3">
 
                         <div class="form-group">
                             <label for="field-5" class="control-label">Orgão Expedidor</label>
 
                             <input type="text" class="form-control" id="field-5" placeholder="SSP/RR">
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <div class="form-group">
+                            <label for="field-5" class="control-label">Estado Civil</label>
+
+                            <select class="form-control" id="select-estadocivil">
+                                <option>Selecione</option>
+                                <option value="2">Solteiro(a)</option>
+                                <option value="1">Casado(a)</option>
+                                <option value="2">Divorciado(a)</option>
+                            </select>
                         </div>
 
                     </div>
@@ -172,7 +188,7 @@
 
             </div>
 
-            <div class="tab-pane" id="endereco">
+            <div class="tab-pane" id="Endereco-Contato">
 
                 <div class="row">
                     <div class="col-md-6">
@@ -200,7 +216,7 @@
                         <div class="form-group">
                             <label for="field-2" class="control-label">Bairro</label>
 
-                            <select class="form-control" id="s2example-1">
+                            <select class="form-control" id="select-bairro">
                                 <option></option>
                                 <option value="2">Aparecida</option>
                                 <option value="1">Bairro dos Estados</option>
@@ -228,7 +244,7 @@
                         <div class="form-group">
                             <label for="field-2" class="control-label">UF</label>
 
-                            <select class="form-control" id="sboxit-2">
+                            <select class="form-control" id="select-uf">
                                 <option>Selecione</option>
                                 <option value="1">AC</option>
                                 <option value="2">AP</option>
@@ -289,27 +305,265 @@
 
             </div>
 
-            <div class="tab-pane" id="profile-3">
+            <div class="tab-pane" id="Dados-Complementares">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="field-1" class="control-label">Deficiênte?</label>
 
-                <p>Fulfilled direction use continual set him propriety continued. Saw met applauded favourite deficient engrossed concealed and her. Concluded boy perpetual old supposing. Farther related bed and passage comfort civilly. Dashwoods see frankness objection abilities the. As hastened oh produced prospect formerly up am. Placing forming nay looking old married few has. Margaret disposed add screened rendered six say his striking confined. </p>
+                            <div class="input-group">
+                                <div class="form-block">
+                                    <label>
+                                        <input type="checkbox" class="iswitch iswitch-success">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <p>When be draw drew ye. Defective in do recommend suffering. House it seven in spoil tiled court. Sister others marked fat missed did out use. Alteration possession dispatched collecting instrument travelling he or on. Snug give made at spot or late that mr. </p>
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label for="field-1" class="control-label">Tipo de Deficiência</label>
+
+                            <input type="text" class="form-control" id="field-1" placeholder="Tipo de Deficiência">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="field-1" class="control-label">Cor</label>
+
+                            <select class="form-control" id="select-cor">
+                                <option></option>
+                                <option value="2">Branco</option>
+                                <option value="1">Pardo</option>
+                                <option value="2">Negro</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="field-1" class="control-label">TGD ou Outras Atividades</label>
+
+                            <select class="form-control" id="select-tgd">
+                                <option></option>
+                                <option value="2">Sim</option>
+                                <option value="1">Não</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="field-1" class="control-label">Conveniado ou Bolsista?</label>
+
+                            <select class="form-control" id="select-cb">
+                                <option></option>
+                                <option value="2">Sim</option>
+                                <option value="1">Não</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
 
-            <div class="tab-pane" id="messages-3">
+            <div class="tab-pane" id="Ingresso">
 
-                <p>When be draw drew ye. Defective in do recommend suffering. House it seven in spoil tiled court. Sister others marked fat missed did out use. Alteration possession dispatched collecting instrument travelling he or on. Snug give made at spot or late that mr. </p>
+                <div class="row">
 
-                <p>Carriage quitting securing be appetite it declared. High eyes kept so busy feel call in. Would day nor ask walls known. But preserved advantage are but and certainty earnestly enjoyment. Passage weather as up am exposed. And natural related man subject. Eagerness get situation his was delighted. </p>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="field-1" class="control-label">Data Ingresso</label>
 
+                            <div class="input-group">
+                                <input type="text" class="form-control datepicker" data-format="dd/mm/yyyy">
+
+                                <div class="input-group-addon">
+                                    <a href="#"><i class="linecons-calendar"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="form-group">
+                            <label for="field-2" class="control-label">Forma de Ingresso</label>
+
+                            <select class="form-control" id="lista-formaingresso">
+                                <option></option>
+                                <option value="1">Vestibular</option>
+                                <option value="2">SISU</option>
+                                <option value="3">ENEM</option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-5">
+
+                        <div class="form-group">
+                            <label for="field-2" class="control-label">Instituição</label>
+
+                            <select class="form-control" id="lista-instituicao">
+                                <option></option>
+                                <option value="2">FACETEN</option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12">
+
+                        <div class="form-group">
+                            <label for="field-2" class="control-label">Curso</label>
+
+                            <select class="form-control" id="lista-curso">
+                                <option></option>
+                                <option value="1">Análise e Desenvolvimento de Sistemas</option>
+                                <option value="2">Gestão Ambiental</option>
+                                <option value="2">Gestão de Recursos Humanos</option>
+                                <option value="2">Marketing</option>
+                                <option value="2">Processos Gerenciais</option>
+                                <option value="2">Radiologia</option>
+                                <option value="2">Redes de Computadores</option>
+                                <option value="2">Sistemas de Computação</option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+            <div class="tab-pane" id="Documentos">
+
+
+
+                        <script type="text/javascript">
+                            jQuery(document).ready(function($)
+                            {
+                                var i = 1,
+                                        $example_dropzone_filetable = $("#example-dropzone-filetable"),
+                                        example_dropzone = $("#advancedDropzone").dropzone({
+                                            url: 'data/upload-file.php',
+
+                                            // Events
+                                            addedfile: function(file)
+                                            {
+                                                if(i == 1)
+                                                {
+                                                    $example_dropzone_filetable.find('tbody').html('');
+                                                }
+
+                                                var size = parseInt(file.size/1024, 10);
+                                                size = size < 1024 ? (size + " KB") : (parseInt(size/1024, 10) + " MB");
+
+                                                var $entry = $('<tr>\
+													<td class="text-center">'+(i++)+'</td>\
+													<td>'+file.name+'</td>\
+													<td><div class="progress progress-striped"><div class="progress-bar progress-bar-warning"></div></div></td>\
+													<td>'+size+'</td>\
+													<td>Uploading...</td>\
+												</tr>');
+
+                                                $example_dropzone_filetable.find('tbody').append($entry);
+                                                file.fileEntryTd = $entry;
+                                                file.progressBar = $entry.find('.progress-bar');
+                                            },
+
+                                            uploadprogress: function(file, progress, bytesSent)
+                                            {
+                                                file.progressBar.width(progress + '%');
+                                            },
+
+                                            success: function(file)
+                                            {
+                                                file.fileEntryTd.find('td:last').html('<span class="text-success">Uploaded</span>');
+                                                file.progressBar.removeClass('progress-bar-warning').addClass('progress-bar-success');
+                                            },
+
+                                            error: function(file)
+                                            {
+                                                file.fileEntryTd.find('td:last').html('<span class="text-danger">Failed</span>');
+                                                file.progressBar.removeClass('progress-bar-warning').addClass('progress-bar-red');
+                                            }
+                                        });
+
+                                $("#advancedDropzone").css({
+                                    minHeight: 200
+                                });
+
+                            });
+                        </script>
+
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-3 text-center">
+
+                                <div id="advancedDropzone" class="droppable-area">
+                                    Solte-os Aqui
+                                </div>
+
+                            </div>
+                            <div class="col-sm-9">
+
+                                <table class="table table-bordered table-striped" id="example-dropzone-filetable">
+                                    <thead>
+                                    <tr>
+                                        <th width="1%" class="text-center">#</th>
+                                        <th width="50%">Nome</th>
+                                        <th width="15%">Upload</th>
+                                        <th>Tamanho</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="5">Nenhum arquivo!</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+
+
+            </div>
+
+            <div style="margin-top: 30px; padding-top: 30px; border-top: 2px solid #eee;">
+                <div class="row">
+                    <div class="col-md-12">
+                            <button class="btn btn-white" type="button">Cancelar</button>
+                            <button class="btn btn-success" type="button" value="Salvar">Atualizar</button>
+                    </div>
+                </div>
             </div>
 
         </div>
-
-
     </div>
 </div>
+
 
 @stop
 
@@ -317,20 +571,65 @@
     <script type="text/javascript">
         jQuery(document).ready(function($)
         {
-            $("#sboxit-1").selectBoxIt({ showFirstOption: false }).on('open', function()
+            $("#select-sexo").selectBoxIt({ showFirstOption: false }).on('open', function()
             {
                 // Adding Custom Scrollbar
                 $(this).data('selectBoxSelectBoxIt').list.perfectScrollbar();
             });
 
-            $("#sboxit-2").selectBoxIt({ showFirstOption: false }).on('open', function()
+            $("#select-estadocivil").selectBoxIt({ showFirstOption: false }).on('open', function()
             {
                 // Adding Custom Scrollbar
                 $(this).data('selectBoxSelectBoxIt').list.perfectScrollbar();
             });
 
-            $("#s2example-1").select2({
-                placeholder: 'Select your country...',
+            $("#select-bairro").select2({
+                placeholder: 'Selecione',
+                allowClear: true
+            }).on('select2-open', function()
+            {
+                // Adding Custom Scrollbar
+                $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+            });
+
+            $("#select-uf").selectBoxIt({ showFirstOption: false }).on('open', function()
+            {
+                // Adding Custom Scrollbar
+                $(this).data('selectBoxSelectBoxIt').list.perfectScrollbar();
+            });
+
+            $("#select-cor").selectBoxIt({ showFirstOption: false }).on('open', function()
+            {
+                // Adding Custom Scrollbar
+                $(this).data('selectBoxSelectBoxIt').list.perfectScrollbar();
+            });
+
+            $("#select-tgd").selectBoxIt({ showFirstOption: false }).on('open', function()
+            {
+                // Adding Custom Scrollbar
+                $(this).data('selectBoxSelectBoxIt').list.perfectScrollbar();
+            });
+
+            $("#select-cb").selectBoxIt({ showFirstOption: false }).on('open', function()
+            {
+                // Adding Custom Scrollbar
+                $(this).data('selectBoxSelectBoxIt').list.perfectScrollbar();
+            });
+
+            $("#lista-formaingresso").selectBoxIt({ showFirstOption: false }).on('open', function()
+            {
+                // Adding Custom Scrollbar
+                $(this).data('selectBoxSelectBoxIt').list.perfectScrollbar();
+            });
+
+            $("#lista-instituicao").selectBoxIt({ showFirstOption: false }).on('open', function()
+            {
+                // Adding Custom Scrollbar
+                $(this).data('selectBoxSelectBoxIt').list.perfectScrollbar();
+            });
+
+            $("#lista-curso").select2({
+                placeholder: 'Selecione o Curso...',
                 allowClear: true
             }).on('select2-open', function()
             {
@@ -349,7 +648,6 @@
 
     <script src="/assets/js/moment.min.js"></script>
 
-
     <!-- Imported scripts on this page -->
     <script src="/assets/js/daterangepicker/daterangepicker.js"></script>
     <script src="/assets/js/datepicker/bootstrap-datepicker.js"></script>
@@ -362,6 +660,8 @@
     <script src="/assets/js/typeahead.bundle.js"></script>
     <script src="/assets/js/handlebars.min.js"></script>
     <script src="/assets/js/multiselect/js/jquery.multi-select.js"></script>
+
+    <script src="/assets/js/dropzone/dropzone.min.js"></script>
 
 @endsection
 
