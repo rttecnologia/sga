@@ -9,6 +9,7 @@ use Flash;
 use DB;
 use App\User;
 use Validator;
+use Illuminate\Support\Facades\Input;
 
 class PermissionController extends Controller
 {
@@ -97,11 +98,9 @@ class PermissionController extends Controller
 
     public function addPermissionUser(Request $request)
     {
-        $input = $request->all();
+        $permissao = $request->input('id_permissao');
 
-        $permissao = $input['id_permissao'];
-
-        $usuarios = $input['user'];
+        $usuarios = $request->input('user');
 
         foreach ($usuarios as $u) {
             $user = User::find($u);
@@ -115,10 +114,9 @@ class PermissionController extends Controller
 
     public function deletePermissionUser(Request $request)
     {
-        $input = $request->all();
-
-        $id_usuario = $input['id_usuario'];
-        $id_permissao = $input['id_permissao'];
+     
+        $id_usuario = $request->input('id_usuario');
+        $id_permissao = $request->input('id_permissao');
 
         $user = User::find($id_usuario);
         $user->detachPermission($id_permissao);
@@ -142,14 +140,7 @@ class PermissionController extends Controller
         if ($request->ajax()) {
             $permissao = Permission::find($id);
 
-            $temporario = [
-                'name' => $request->name,
-                'slug' => $request->slug,
-                'description' => $request->description
-            ];
-
-            $validator = $this->validator($request, $temporario);
-
+            $validator = $this->validator($request, $permissao->toArray());
 
             if ($validator->fails()) {
 
@@ -176,6 +167,24 @@ class PermissionController extends Controller
         return redirect('sistema/permissao');
     }
 
+    public function buscaPermissao(){
+        $term = Input::get('term');
+
+        $results = array();
+
+        $queries = DB::table('permissions')
+            ->where('name', 'LIKE', '%'.$term.'%')
+            ->orWhere('slug', 'LIKE', '%'.$term.'%')
+            ->take(5)->get();
+
+        foreach ($queries as $query)
+        {
+            $results[] = [ 'id' => $query->id, 'value' => $query->name.' ('.$query->slug.')'];
+        }
+        return response()->json($results);
+
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -184,7 +193,7 @@ class PermissionController extends Controller
      */
     protected function validator(Request $request, array $data) {
         if ($request->isMethod('patch')) {
-            $slug_rule = 'required|max:255|unique:permissions,id,' . $request->get('id');
+            $slug_rule = 'required|max:255|unique:permissions,slug,' . $request->get('id');
         }  else  {
             $slug_rule = 'required|max:255|unique:permissions';
         }

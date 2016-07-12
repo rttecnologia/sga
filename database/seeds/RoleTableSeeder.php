@@ -12,6 +12,15 @@ class RoleTableSeeder extends Seeder {
     public function run() {
         //Perfil Administrador
         DB::table('roles')->insert([
+            'id' => '0',
+            'name' => 'Nenhum',
+            'slug' => 'nenhum',
+            'description' => 'Perfil do Sistema', // optional
+            'parent_id' => NULL,
+        ]);
+
+        //Perfil Administrador
+        DB::table('roles')->insert([
             'name' => 'Administrador',
             'slug' => 'admin',
             'description' => 'Perfil de Administrador', // optional

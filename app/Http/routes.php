@@ -45,13 +45,17 @@ Route::group(['middleware' => 'web'], function () {
     
     //Rotas para o gerenciamento de perfil (Role)
     Route::get('sistema/perfil', 'RoleController@index');
-    Route::get('sistema/perfil/create', 'RoleController@create');
     Route::post('sistema/perfil/store', 'RoleController@store');
     Route::get('sistema/perfil/delete/{id}', 'RoleController@delete');
     Route::get('sistema/perfil/edit/{id}', 'RoleController@edit');
     Route::patch('sistema/perfil/update/{id}', 'RoleController@update');
+    Route::get('sistema/perfil/assignUser/{id}', 'RoleController@assignUser');
+    Route::get('sistema/perfil/assignPermission/{id}', 'RoleController@assignPermission');
+    Route::get('sistema/perfil/adduser', 'RoleController@addRoleUser');
+    Route::get('sistema/perfil/addpermission', 'RoleController@addPermissionRole');
+    Route::get('sistema/perfil/removepermission', 'RoleController@deletePermissionRole');
+    Route::get('sistema/perfil/removeuser', 'RoleController@deleteRoleUser');
 
-    
     // Rotas para o gerenciamento de Usuarios (Users)
     Route::get('sistema/usuario', 'UsuarioController@index');
     Route::get('sistema/usuario/create', 'UsuarioController@create');
@@ -73,7 +77,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::patch('sistema/permissao/update/{id}', 'PermissionController@update');
     Route::get('sistema/permissao/adduser', 'PermissionController@addPermissionUser');
     Route::get('sistema/permissao/removeuser', 'PermissionController@deletePermissionUser');
-
+    Route::get('sistema/permissao/buscaPermissao', 'PermissionController@buscaPermissao'); // Rota para buscar usuário
 
 
     // Authentication routes...

@@ -1,7 +1,7 @@
 @extends('layout.padrao')
-@section('title', 'Permissão')
-@section('title.descricao', 'Associar Permissão')
-@section('breadcrumbs', Breadcrumbs::render('sistema.permissao'))
+@section('title', 'Perfil')
+@section('title.descricao', 'Associar Usuário')
+@section('breadcrumbs', Breadcrumbs::render('sistema.perfil'))
 
 @section('conteudo')
     @include('flash::message')
@@ -12,7 +12,7 @@
         <div class="panel-heading">
             <div class="panel-title">
                 <h2>Usuários Associados</h2>
-                <h4>{{$permissao->name}}</h4>
+                <h4>{{$objeto->name}}</h4>
             </div>
         </div>
 
@@ -21,14 +21,14 @@
             <div class="row" style="margin-bottom: 15px;">
                 <div class="col-md-12 text-right">
                     <a href="javascript: void(0);"
-                       onclick="jQuery('#modal-adduser-permission').modal('show', {backdrop: 'fade'});">
+                       onclick="jQuery('#modal-adduser-perfil').modal('show', {backdrop: 'fade'});">
                         <button class="btn btn-blue btn-icon btn-icon-standalone">
                             <i class="fa-plus-circle"></i>
                             <span>Adicionar Usuário</span>
                         </button>
                     </a>
 
-                    <a href="{{ action('PermissionController@index')}}">
+                    <a href="{{ action('RoleController@index')}}">
                         <button class="btn btn-white btn-icon btn-icon-standalone">
                             <i class="fa-reply"></i>
                             <span>Voltar</span>
@@ -37,11 +37,11 @@
                 </div>
             </div>
 
-            @if(count($usuarios) > 0)
+            @if(count($data) > 0)
 
                 <div class="gallery-env">
                     <div class="album-images row">
-                        @foreach ($usuarios as $user)
+                        @foreach ($data as $d)
                             <!-- Album Image -->
                             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                                 <div class="album-image">
@@ -50,12 +50,12 @@
                                     </a>
 
                                     <a class="name" href="#">
-                                        <span>{{$user->name}}</span>
-                                        <em>{{$user->email}}</em>
+                                        <span>{{$d->name}}</span>
+                                        <em>{{$d->email}}</em>
                                     </a>
 
                                     <div class="image-checkbox">
-                                        <a href="#" data-href="{{ action('PermissionController@deletePermissionUser', array('id_usuario'=>$user->id, 'id_permissao'=>$permissao->id)) }}"
+                                        <a href="#" data-href="{{ action('RoleController@deleteRoleUser', array('id_usuario'=>$d->id, 'id_perfil'=>$objeto->id)) }}"
                                            data-toggle="modal" data-target="#confirm-delete">
                                             <i class="fa-remove"></i>
                                         </a>
@@ -69,13 +69,13 @@
 
                 <div class="row">
                     <div class="col-sm-12 text-center">
-                        {!! $usuarios->render() !!}
+                        {!! $data->render() !!}
                     </div>
                 </div>
 
             @else
                 <div class="well well-sm" style="margin-top: 15px;">
-                    Nenhum usuário associado a esta permissão.
+                    Nenhum usuário associado a este perfil.
                 </div>
             @endif
 
@@ -83,6 +83,6 @@
 
     </div>
 
-    @include('layout._partials.sistema.buscaUsuario' , array('pagina' => 'permissao'))
+    @include('layout._partials.sistema.buscaUsuario', array('pagina' => 'perfil'))
 
 @stop
