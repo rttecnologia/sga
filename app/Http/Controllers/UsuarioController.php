@@ -15,7 +15,6 @@ class UsuarioController extends Controller {
     }
 
     public function index() {
-        //$usuarios = Usuario::all();
         $usuarios = User::all();
         return view('sistema.usuario.index', ['usuarios' => $usuarios]);
     }

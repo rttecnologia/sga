@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DCN\RBAC\Models\Permission;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -9,6 +10,7 @@ use DCN\RBAC\Models\Role;
 use DB;
 use Validator;
 use Flash;
+use App\User;
 
 
 class RoleController extends Controller {
@@ -24,19 +26,7 @@ class RoleController extends Controller {
      */
     public function index() {
         $roles = Role::all();
-        return view('sistema.perfil.index', ['perfis' => $roles]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create() {
-        $roles = array( '0' =>'Nenhum') +
-                DB::table('roles')->orderBy('id', 'asc')->lists('name', 'id');
-
-        return view('sistema.perfil.create', array('perfil' => $roles));
+        return view('sistema.perfil.index', ['perfis' => $roles] );
     }
 
     /**
@@ -45,35 +35,27 @@ class RoleController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
-        $input = $request->all();
- //       $validator = Validator::make($input);
-        
-        if ($input['parent_id'] == 0) { $input['parent_id'] = NULL; }
+    public function store(Request $request)
+    {
 
-//        if ($validator->fails()) {
-//            return redirect()->back()
-//                            ->withErrors($validator)
-//                            ->withInput();
-//        }
+        if ($request->ajax()) {
+            $input = $request->all();
 
-        Role::create($input);
+            $validator = $this->validator($request, $input);
 
-        Flash::success('Perfil criado com sucesso!');
-        return redirect('sistema/perfil');
+            if ($validator->fails()) {
+                $this->throwValidationException(
+                    $request, $validator
+                );
+            }
 
-        //return redirect()->back()->with('flash_message', 'Perfil criado com suscesso!');
+            $role = Role::create($input);
+
+            Flash::success('Perfil adicionado com sucesso!');
+            return $request->json($role);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id) {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -81,13 +63,98 @@ class RoleController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
-        $perfil = Role::findOrFail($id);
+    public function edit($id, Request $request)
+    {
+        if ($request->ajax()) {
+            $role = Role::findOrFail($id);
+            return $role;
+        }
 
-        $roles = array( '0' =>'Nenhum') +
-            DB::table('roles')->orderBy('id', 'asc')->lists('name', 'id');
+    }
 
-        return view('sistema.perfil.edit', ['perfil' => $perfil, 'roles' => $roles]);
+    public function assignUser($id)
+    {
+
+        $objeto = Role::findOrFail($id);
+
+        $data = DB::table('users')
+            ->whereIn('id', function ($query) use ($id) {
+                $query->select(DB::raw('user_id'))
+                    ->from('role_user')
+                    ->whereRaw('role_user.user_id = users.id AND role_user.role_id = '.$id);
+            })
+            ->paginate(8);
+
+        return view('sistema.perfil.assignUser', compact('objeto', 'data'));
+
+    }
+
+    public function assignPermission($id)
+    {
+
+        $objeto = Role::findOrFail($id);
+
+        $data = DB::table('permissions')
+            ->whereIn('id', function ($query) use ($id) {
+                $query->select(DB::raw('permission_id'))
+                    ->from('permission_role')
+                    ->whereRaw('permission_role.permission_id = permissions.id AND permission_role.role_id = '.$id);
+            })
+            ->paginate(8);
+
+        return view('sistema.perfil.assignPermission', compact('data', 'objeto'));
+
+    }
+
+    public function addRoleUser(Request $request)
+    {
+        $usuarios = $request->input('user');
+
+        foreach ($usuarios as $u) {
+            $user = User::find($u);
+            $user->attachRole($request->input('id_perfil'));
+        }
+
+        Flash::success('Usuário(s) adicionado(s) com sucesso!');
+        return redirect('sistema/perfil/assignUser/' . $request->input('id_perfil'));
+
+    }
+
+    public function deleteRoleUser(Request $request)
+    {
+        $user = User::find($request->input('id_usuario'));
+        $user->detachRole($request->input('id_perfil'));
+
+        Flash::success('Usuário excluido com sucesso!');
+        return redirect('sistema/perfil/assignUser/' . $request->input('id_perfil'));
+    }
+
+    public function addPermissionRole(Request $request)
+    {
+        $permissoes = $request->input('permissions');
+
+        $role = Role::find($request->input('id_perfil'));
+
+        foreach ($permissoes as $p) {
+            $permission = Permission::find($p);
+            $role->attachPermission($permission);
+        }
+
+        Flash::success('Permissões adicionadas com sucesso!');
+        return redirect('sistema/perfil/assignPermission/' . $role->id);
+
+    }
+
+    public function deletePermissionRole(Request $request)
+    {
+        $role = Role::find($request->input('id_perfil'));
+        $permission = Permission::find($request->input('id_permissao'));
+
+        $role->detachPermission($permission);
+
+        Flash::success('Permissão excluída com sucesso!');
+        return redirect('sistema/perfil/assignPermission/' . $role->id);
+
     }
 
     /**
@@ -98,24 +165,24 @@ class RoleController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        $perfil = Role::findOrFail($id);
+        if ($request->ajax()) {
 
-        $input = Input::all();
+            $perfil = Role::findOrFail($id);
 
-        if ($input['parent_id'] == 0) { $input['parent_id'] = NULL; }
+            $validator = $this->validator($request, $perfil->toArray());
 
-        /** $validator = Validator::make($input, Usuario::rules(), Usuario::message());
+            if ($validator->fails()) {
+                $this->throwValidationException(
+                    $request, $validator
+                );
+            }
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
+            $perfil->fill($request->all())->save();
+
+            Flash::success('Perfil atualizado com sucesso!');
+            return $request->json($perfil);
+
         }
-         */
-
-        $perfil->fill($input)->save();
-        Flash::success('Perfil criado com sucesso!');
-        return redirect('sistema/perfil');
     }
 
     /**
@@ -130,6 +197,26 @@ class RoleController extends Controller {
         $role->delete();
         Flash::success('Perfil excluido com sucesso!');
         return redirect('sistema/perfil');
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(Request $request, array $data) {
+        if ($request->isMethod('patch')) {
+            $slug_rule = 'required|max:255|unique:roles,slug,' . $request->get('id');
+        }  else  {
+            $slug_rule = 'required|max:255|unique:roles';
+        }
+
+        return Validator::make($data, [
+            'name' => 'required|max:255',
+            'slug' => $slug_rule,
+            'description' => 'required|min:6',
+        ]);
     }
 
 }

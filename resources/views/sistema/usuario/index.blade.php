@@ -12,6 +12,17 @@
         <h3 class="panel-title">Lista de usuários</h3>
     </div>
     <div class="panel-body">
+        <div class="row" style="margin-bottom: 15px;">
+            <div class="col-md-12 text-left">
+                <a href="javascript: void(0);"
+                   onclick="jQuery('#modal-addpermissao-perfil').modal('show', {backdrop: 'fade'});">
+                    <button class="btn btn-blue btn-icon btn-icon-standalone">
+                        <i class="fa-plus-circle"></i>
+                        <span>Adicionar Usuários</span>
+                    </button>
+                </a>
+            </div>
+        </div>
         <p>
             <a href="{{ action('Auth\AuthController@getRegister')}}" class="btn btn-info">Novo</a>        
         </p>
